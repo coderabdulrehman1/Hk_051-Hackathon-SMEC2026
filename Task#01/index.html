@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Air Pollution Checker</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #f0f4f8;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    .input-group {
+      display: flex;
+      margin: 25px 0;
+      gap: 10px;
+    }
+    input, button {
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    input {
+      flex: 1;
+    }
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+    #result {
+      margin-top: 30px;
+      padding: 20px;
+      border-radius: 8px;
+      background-color: #ecf0f1;
+    }
+    .aqi-box {
+      text-align: center;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+      font-size: 1.4em;
+      font-weight: bold;
+      color: white;
+    }
+    .good    { background: #2ecc71; }
+    .fair    { background: #f1c40f; }
+    .moderate{ background: #e67e22; }
+    .poor    { background: #e74c3c; }
+    .verypoor{ background: #8e44ad; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+    th {
+      background-color: #34495e;
+      color: white;
+    }
+    .highlight {
+      font-weight: bold;
+      background-color: #ffff99;
+    }
+    #loading {
+      text-align: center;
+      font-style: italic;
+      color: #777;
+      display: none;
+    }
+    #error {
+      color: red;
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Air Pollution Checker</h1>
+  
+  <div class="input-group">
+    <input type="text" id="location" placeholder="Enter city name (e.g. Karachi)" />
+    <button onclick="getAirQuality()">Check Air Quality</button>
+  </div>
+
+  <div id="loading">Loading air quality data...</div>
+  <div id="error"></div>
+
+  <div id="result" style="display:none;">
+    <h2 id="city-title"></h2>
+    
+    <div id="overall-aqi" class="aqi-box"></div>
+    
+    <h3>Pollutant Concentrations (μg/m³) & Classification</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Pollutant</th>
+          <th>Concentration</th>
+          <th>Category</th>
+        </tr>
+      </thead>
+      <tbody id="pollutants-table"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+// Your OpenWeatherMap API key
+const API_KEY = "80dd20322657fb79cd7abef04411d13d";
+
+// Qualitative names - same as your table
+const categories = [
+  { name: "Good",      class: "good",     index: 1 },
+  { name: "Fair",      class: "fair",     index: 2 },
+  { name: "Moderate",  class: "moderate", index: 3 },
+  { name: "Poor",      class: "poor",     index: 4 },
+  { name: "Very Poor", class: "verypoor", index: 5 }
+];
+
+// Thresholds from your table (upper bound is exclusive except for last)
+const thresholds = {
+  so2:   [20, 80, 250, 350, Infinity],
+  no2:   [40, 70, 150, 200, Infinity],
+  pm10:  [20, 50, 100, 200, Infinity],
+  pm25:  [10, 25, 50,  75,  Infinity],
+  o3:    [60, 100,140, 180, Infinity],
+  co:    [4400,9400,12400,15400,Infinity]
+};
+
+function getCategory(value, pollutant) {
+  const limits = thresholds[pollutant];
+  for (let i = 0; i < limits.length; i++) {
+    if (value < limits[i]) {
+      return categories[i];
+    }
+  }
+  return categories[4]; // Very Poor
+}
+
+async function getAirQuality() {
+  const cityInput = document.getElementById("location").value.trim();
+  const loading = document.getElementById("loading");
+  const errorDiv = document.getElementById("error");
+  const resultDiv = document.getElementById("result");
+
+  errorDiv.textContent = "";
+  loading.style.display = "block";
+  resultDiv.style.display = "none";
+
+  try {
+    let lat, lon, name, country;
+
+    // If user entered a city name → try to geocode
+    if (cityInput) {
+      const geoRes = await fetch(
+        `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(cityInput)}&limit=1&appid=${API_KEY}`
+      );
+
+      if (!geoRes.ok) {
+        const errData = await geoRes.json();
+        throw new Error(errData.message || `Geocoding failed: ${geoRes.status}`);
+      }
+
+      const geoData = await geoRes.json();
+
+      if (!geoData.length) {
+        throw new Error("City not found. Try adding country code e.g. Karachi,PK");
+      }
+
+      ({ lat, lon, name, country } = geoData[0]);
+    } 
+    // If input is empty → use Karachi by default
+    else {
+      lat = 24.8607;
+      lon = 67.0011;
+      name = "Karachi";
+      country = "PK";
+    }
+
+    // Get air pollution data
+    const pollutionRes = await fetch(
+      `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`
+    );
+
+    if (!pollutionRes.ok) {
+      const errData = await pollutionRes.json();
+      throw new Error(errData.message || `API error: ${pollutionRes.status}`);
+    }
+
+    const pollutionData = await pollutionRes.json();
+
+    if (!pollutionData.list || !pollutionData.list[0]) {
+      throw new Error("No air pollution data available for this location");
+    }
+
+    const data = pollutionData.list[0];
+    const aqi = Math.round(data.main.aqi); // 1 to 5
+    const components = data.components;
+
+    // Overall AQI display
+    const cat = categories.find(c => c.index === aqi) || categories[4];
+    document.getElementById("overall-aqi").textContent = `${cat.name} (AQI ${aqi})`;
+    document.getElementById("overall-aqi").className = `aqi-box ${cat.class}`;
+
+    // City name
+    document.getElementById("city-title").textContent = `Air Quality in ${name}${country ? ', ' + country : ''}`;
+
+    // Build table rows
+    const tableBody = document.getElementById("pollutants-table");
+    tableBody.innerHTML = "";
+
+    const pollutants = [
+      { key: "so2",   name: "SO₂",   value: components.so2   },
+      { key: "no2",   name: "NO₂",   value: components.no2   },
+      { key: "pm10",  name: "PM₁₀",  value: components.pm10  },
+      { key: "pm2_5", name: "PM₂.₅", value: components.pm2_5 },
+      { key: "o3",    name: "O₃",    value: components.o3    },
+      { key: "co",    name: "CO",    value: components.co    }
+    ];
+
+    pollutants.forEach(p => {
+      const value = p.value != null ? p.value.toFixed(2) : "N/A";
+      const cat = p.value != null ? getCategory(p.value, p.key === "pm2_5" ? "pm25" : p.key) : null;
+
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${p.name}</td>
+        <td>${value}</td>
+        <td class="${cat ? cat.class + ' highlight' : ''}">${cat ? cat.name : "N/A"}</td>
+      `;
+      tableBody.appendChild(row);
+    });
+
+    resultDiv.style.display = "block";
+  } catch (err) {
+    errorDiv.textContent = "Error: " + err.message;
+    console.error("Full error:", err);
+  } finally {
+    loading.style.display = "none";
+  }
+}
+</script>
+</body>
+</html>
