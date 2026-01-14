@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Price Comparator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container">
+  <h1>Product Price Comparator</h1>
+  
+  <div class="input-group">
+    <input type="text" id="query" placeholder="Enter product name" />
+    <button onclick="comparePrices()">Search Prices</button>
+  </div>
+
+  <div id="loading">Loading prices...</div>
+  <div id="error"></div>
+
+  <div id="result">
+    <div id="best-price-box" class="best-price"></div>
+    
+    <h3>Prices from Different Sites</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>E-Commerce Site</th>
+          <th>Product Name</th>
+          <th>Price ($)</th>
+        </tr>
+      </thead>
+      <tbody id="prices-table"></tbody>
+    </table>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
