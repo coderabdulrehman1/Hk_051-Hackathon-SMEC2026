@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Resource System</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+</head>
+
+<body>
+  <header class="main-header">
+    <div class="header-content">
+      <h1>🎓 Campus Resource Booking</h1>
+      <div class="user-info">
+        <span id="userName" class="user-name"></span>
+        <button onclick="logout()" class="btn-logout">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <section class="booking-section">
+      <div class="section-header">
+        <h2>📅 Book a Resource</h2>
+        <p>Select a resource and choose your preferred date and time</p>
+      </div>
+      <div class="booking-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="resource">Resource</label>
+            <select id="resource" class="form-control"></select>
+          </div>
+          <div class="form-group">
+            <label for="date">Date</label>
+            <input type="date" id="date" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="time">Time</label>
+            <input type="time" id="time" class="form-control" required>
+          </div>
+        </div>
+        <button onclick="book()" class="btn-primary btn-book">Book Resource</button>
+      </div>
+    </section>
+
+    <section class="calendar-section">
+      <div class="section-header">
+        <h2>📆 Availability Calendar</h2>
+        <p>View approved bookings and available slots. Click on any date to see bookings for that day.</p>
+      </div>
+      <div id="calendar" class="calendar-container"></div>
+    </section>
+
+    <section class="day-bookings-section">
+      <div class="section-header">
+        <h2 id="dayBookingsTitle">📋 Today's Bookings</h2>
+        <p id="dayBookingsSubtitle">Bookings scheduled for today</p>
+      </div>
+      <div id="dayBookings" class="day-bookings-container">
+        <p class="loading-text">Loading bookings...</p>
+      </div>
+    </section>
+
+    <section id="admin" class="admin-section" style="display:none">
+      <div class="section-header">
+        <h2>⚙️ Admin Dashboard</h2>
+        <p>Manage and approve booking requests</p>
+      </div>
+      <div id="adminBookings" class="admin-bookings"></div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
