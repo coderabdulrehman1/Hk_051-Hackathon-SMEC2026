@@ -132,10 +132,10 @@
 </div>
 
 <script>
-// Your OpenWeatherMap API key
+
 const API_KEY = "80dd20322657fb79cd7abef04411d13d";
 
-// Qualitative names - same as your table
+
 const categories = [
   { name: "Good",      class: "good",     index: 1 },
   { name: "Fair",      class: "fair",     index: 2 },
@@ -144,7 +144,7 @@ const categories = [
   { name: "Very Poor", class: "verypoor", index: 5 }
 ];
 
-// Thresholds from your table (upper bound is exclusive except for last)
+
 const thresholds = {
   so2:   [20, 80, 250, 350, Infinity],
   no2:   [40, 70, 150, 200, Infinity],
@@ -161,7 +161,7 @@ function getCategory(value, pollutant) {
       return categories[i];
     }
   }
-  return categories[4]; // Very Poor
+  return categories[4]; 
 }
 
 async function getAirQuality() {
@@ -177,7 +177,6 @@ async function getAirQuality() {
   try {
     let lat, lon, name, country;
 
-    // If user entered a city name → try to geocode
     if (cityInput) {
       const geoRes = await fetch(
         `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(cityInput)}&limit=1&appid=${API_KEY}`
@@ -196,7 +195,7 @@ async function getAirQuality() {
 
       ({ lat, lon, name, country } = geoData[0]);
     } 
-    // If input is empty → use Karachi by default
+   
     else {
       lat = 24.8607;
       lon = 67.0011;
@@ -204,7 +203,7 @@ async function getAirQuality() {
       country = "PK";
     }
 
-    // Get air pollution data
+   
     const pollutionRes = await fetch(
       `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`
     );
@@ -221,18 +220,18 @@ async function getAirQuality() {
     }
 
     const data = pollutionData.list[0];
-    const aqi = Math.round(data.main.aqi); // 1 to 5
+    const aqi = Math.round(data.main.aqi); 
     const components = data.components;
 
-    // Overall AQI display
+    
     const cat = categories.find(c => c.index === aqi) || categories[4];
     document.getElementById("overall-aqi").textContent = `${cat.name} (AQI ${aqi})`;
     document.getElementById("overall-aqi").className = `aqi-box ${cat.class}`;
 
-    // City name
+    
     document.getElementById("city-title").textContent = `Air Quality in ${name}${country ? ', ' + country : ''}`;
 
-    // Build table rows
+ 
     const tableBody = document.getElementById("pollutants-table");
     tableBody.innerHTML = "";
 
