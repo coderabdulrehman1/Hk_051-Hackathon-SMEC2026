@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReuseHub | Smart Barter Platform</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header>
+    <h1>ReuseHub ♻️</h1>
+    <p>Swap • Rent • Reuse — Save Money & Planet</p>
+  </header>
+
+  <main>
+    <section class="form-section">
+      <h2>📦 List an Item</h2>
+      <p style="font-size: 0.85rem; color: #666; margin-bottom: 8px;">
+        Share things you don’t use often and find what you need from your community.
+      </p>
+      <input type="text" id="itemName" placeholder="Item Name" required>
+      <input type="text" id="itemCategory" placeholder="Category (Camera, Dress, Tools)" required>
+      <input type="text" id="itemImage" placeholder="Image URL (optional)">
+      <textarea id="itemDesc" placeholder="Short description (condition, brand, etc.)"></textarea>
+      <button onclick="addItem()">+ Add Item to ReuseHub</button>
+    </section>
+
+    <section class="items-section">
+      <h2>🌱 Available Items</h2>
+      <p style="text-align: center; font-size: 0.9rem; color: #666; margin-bottom: 10px;">
+        Browse community items ready for swap, rent, or reuse.
+      </p>
+      <div id="itemsContainer" class="items"></div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #eef2f3, #d9e7ff);
+  min-height: 100vh;
+}
+
+header {
+  background: linear-gradient(135deg, #00c853, #64dd17);
+  padding: 35px;
+  text-align: center;
+  color: white;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+
+header p {
+  margin-top: 5px;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+/* Form */
+.form-section {
+  background: rgba(255,255,255,0.9);
+  width: 90%;
+  max-width: 500px;
+  margin: 30px auto;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.form-section h2 {
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.form-section input,
+.form-section textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.form-section button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: #00c853;
+  color: white;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.form-section button:hover {
+  background: #009624;
+}
+
+/* Items */
+.items-section {
+  width: 90%;
+  margin: auto;
+}
+
+.items-section h2 {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+/* Card */
+.card {
+  background: rgba(255,255,255,0.85);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+.card img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 15px;
+}
+
+.card-content h3 {
+  margin-bottom: 5px;
+}
+
+.card-content p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.card-content .rating {
+  margin: 8px 0;
+  font-weight: 600;
+}
+
+.card-content button {
+  margin-top: 6px;
+  padding: 7px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.rate {
+  background: #ff9800;
+  color: white;
+}
+
+.match {
+  background: #2196f3;
+  color: white;
+}
+.delete {
+  background: #f44336;
+  color: white;
+}
