@@ -1,0 +1,81 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f0f2f5;
+  margin: 0;
+  padding: 0;
+}
+
+/* Profile */
+.profile {
+  background: white;
+  width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.profile img {
+  width: 100px;
+  border-radius: 50%;
+}
+
+.profile button {
+  margin-top: 10px;
+  padding: 8px 15px;
+  border: none;
+  background: #1877f2;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Post */
+.post {
+  background: white;
+  width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.actions button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Comments */
+.comments {
+  margin-top: 15px;
+}
+
+.comments input {
+  width: 70%;
+  padding: 6px;
+}
+
+.comments button {
+  padding: 6px 10px;
+  margin-left: 5px;
+}
+
+.comments ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.comments li {
+  background: #f0f2f5;
+  padding: 5px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
