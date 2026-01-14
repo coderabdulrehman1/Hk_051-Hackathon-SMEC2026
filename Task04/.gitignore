@@ -1,0 +1,21 @@
+# Node modules (huge folder, never commit)
+node_modules/
+
+# Firebase key (in case you have old file)
+serviceAccountKey.json
+
+# Environment files (if you add later)
+.env
+
+# Logs and temp files
+*.log
+npm-debug.log
+yarn-debug.log
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor folders
+.vscode/
+.idea/
