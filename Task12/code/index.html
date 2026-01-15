@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniRide - University Carpool</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+    <header>
+        <h1>UniRide</h1>
+        <p>Reduce fuel, traffic & emissions – Share rides with university friends!</p>
+    </header>
+
+    <div class="container">
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('post')">Offer Ride</button>
+            <button class="tab" onclick="showTab('find')">Find Ride</button>
+            <button class="tab" onclick="showTab('history')">My Rides</button>
+        </div>
+
+        <!-- Offer Ride Tab -->
+        <div id="post" class="tab-content active">
+            <form id="postRideForm">
+                <input type="text" id="from" placeholder="From (e.g., KU Gate)" required>
+                <input type="text" id="to" placeholder="To (e.g., Gulshan)" required>
+                <input type="datetime-local" id="time" required>
+                <input type="number" id="seats" min="1" max="6" placeholder="Available Seats" required>
+                <button type="submit">Post Ride</button>
+            </form>
+        </div>
+
+        <!-- Find Ride Tab -->
+        <div id="find" class="tab-content">
+            <input type="text" id="searchFrom" placeholder="From location">
+            <input type="text" id="searchTo" placeholder="To location">
+            <button onclick="searchRides()">Search Rides</button>
+            <div id="rideList"></div>
+        </div>
+
+        <!-- My Rides Tab -->
+        <div id="history" class="tab-content">
+            <h3>Your Posted & Booked Rides</h3>
+            <div id="historyList"></div>
+        </div>
+
+        <!-- Map -->
+        <div id="map" style="height: 400px; margin-top: 20px;"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
