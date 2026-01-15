@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Song Lyrics Word Cloud Generator-Task 8</title>
+  <link rel="stylesheet" href="css/styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wordcloud2.js/1.0.1/wordcloud2.min.js"></script></head>
+<body>
+    <h1>Lyrics in the Sky</h1>
+
+    <form id="songForm">
+        <label for="artist">Artist:</label>
+        <input type="text" id="artist" placeholder="e.g.Eminem" required>
+
+        <label for="song">Song Title:</label>
+        <input type="text" id="song" placeholder="e.g.The Real Slim Shady" required>
+
+        <button type="submit">Generate Word Cloud</button>
+    </form>
+
+    <canvas id="wordcloud"></canvas>
+
+<div id="loadingSpinner" class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Fetching lyrics & generating cloud...</p>
+</div>
+
+<div id="error"></div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
